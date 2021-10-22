@@ -1,0 +1,81 @@
+{% extends "ticket_app/base.html" %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Table</title>
+    {% block content %}
+    <link rel='stylesheet' type='text/css' href="{% static 'ticket_app/css/style1.css' %}" />
+    <link href="{% static 'ticket_app/vendor/datatables/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'ticket_app/fontawesome-free-5.15.1/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'ticket_app/fontawesome-free-5.15.1/css/all.min.css' %}">
+    <script type="text/javascript">
+function confirmDeleteModal(id){
+    $('#deleteModal').modal();
+	$('#deleteButton').html('<a class="btn btn-danger" onclick="deleteData('+id+')">Delete</a>');
+}
+</script>
+
+<body>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Basic Datatable</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="example" class="display" style="color:#333;min-width: 845px">
+                        <thead>
+                        <tr>
+                            <th class="id" >ID</th>
+                            <th class="name" >Name</th>
+                            <th class="past" >Past Address</th>
+                            <th class="present" >Current address</th>
+                            <th class="phone" >Phone Number</th>
+                            <th  class="view"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in data %}
+                        <tr>
+                            <td class="id">{{i.id}}</td>
+                            <td class="name">{{i.name}}</td>
+                            <td class="past">{{i.past_address}}</td>
+                            <td class="present">{{i.present_address}}</td>
+                            <td class="phone">{{i.phone_number}}</td>
+
+                            <td class="view">
+                                <button class="btn btn-info"><a style="text-decoration:none;color:#fff;" href="{% url 'ticket_update' pk=i.id %}"><i class="fas fa-edit"></i> Edit</a></button>
+                                <button type="button" class="btn btn-danger"><a style="text-decoration:none;color:#fff;" href= "{% url 'ticket_delete' pk=i.id %}"><i class="fas fa-trash-alt"></i> Delete</a></button>
+                            </td>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'ticket_app/table_extensions/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'ticket_app/table_extensions/vendor/bootstrap/js/popper.js' %}"></script>
+<script src="{% static 'ticket_app/table_extensions/vendor/bootstrap/js/popper.min.js' %}"></script>
+<script src="{% static 'ticket_app/table_extensions/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+<script src="{% static 'ticket_app/table_extensions/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src=" {% static 'ticket_app/table_extensions/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<script src="{% static 'ticket_app/vendor/global/global.min.js' %}"></script>
+<script src="{% static 'ticket_app/js/quixnav-init.js' %}"></script>
+<script src="{% static 'ticket_app/js/custom.min.js' %}"></script>
+<script src="{% static 'ticket_app/vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'ticket_app/plugins-init/datatables.init.js' %}"></script>
+</body>
+{% endblock content %}
+</head>
+</html>
