@@ -92,7 +92,6 @@ color:#fff;
                     <th data-sortable="true">Action Item</th>
                     <th data-sortable="true" class="severity" data-field="severity" data-formatter="nameFormatter">Severity</th>
                     <th data-sortable="true">Action Taken (History)</th>
-                    <th data-sortable="true">Action Taken (Today Progress)</th>
                     <th data-sortable="true">Start Date</th>
                     <th data-sortable="true">Today's Date</th>
                     <th data-sortable="true">Age</th>
@@ -119,11 +118,9 @@ color:#fff;
                     <td>{{i.present_address}}</td>
                     <td>{{i.phone_number}}</td>
                     <td>{{i.phone_number}}</td>
-                    <td>{{i.phone_number}}</td>
                     <td class="status">Pending</td>
                     <td>
                         <button class="btn btn-info"><a style="text-decoration:none;color:#fff;" href="{% url 'ticket_update' pk=i.id %}"><i class="fas fa-edit"></i> Update</a></button><br><br>
-                        <button type="button" class="btn btn-danger"><a style="text-decoration:none;color:#fff;" href= "{% url 'ticket_delete' pk=i.id %}"><i class="fas fa-trash-alt"></i>  Close</a></button>
                     </td>
                     {% endfor %}
                 </tr>

@@ -1,4 +1,3 @@
-
 {% extends "ticket_app/base.html" %}
 {% load static %}
 <!doctype html>
@@ -10,7 +9,7 @@
   <title>Table</title>
   <link rel="shortcut icon" href="{% static 'ticket_app/images/logo.png' %}" alt="TCS" />
   {% block content %}
-    <link rel='stylesheet' type='text/css' href="{% static 'ticket_app/css/style1.css' %}" />
+  <link rel='stylesheet' type='text/css' href="{% static 'ticket_app/css/style1.css' %}" />
   <link rel="stylesheet" href="{% static 'ticket_app/table_extensions/vendor/bootstrap/css/bootstrap-4.3.1.min.css' %}">
   <link href="{% static 'ticket_app/table_extensions/fontawesome-free-5.15.1/css/all.css' %}" rel="stylesheet">
   <link href="{% static 'ticket_app/table_extensions/fontawesome-free-5.15.1/css/all.min.css' %}" rel="stylesheet">
@@ -20,6 +19,47 @@
   .quixnav .metismenu li {
     position: relative;
     color:#fff;
+}
+label {
+ display: inline-block;
+ margin-bottom: 5px;
+}
+
+.form-row {
+  display: flex;
+}
+
+.form-group {
+  padding: 5px;
+  width: 50%;
+}
+
+.form-group input  {
+  width: 100%;
+}
+
+.form-group select  {
+  width: 100%;
+}
+.user-details .input-box textarea {
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+.user-details .input-box select {
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
 }
 </style>
 <body>
@@ -39,35 +79,39 @@
 <div class="card" style="top:50;">
   <div class="card-body text-dark" style="font-family: Helvetica, Arial, sans-serif;font-size:17px;">
     <div class="col-lg-12" >
-<form method="POST">
-      {% csrf_token %}
-      <div class="user-details">
-        <div class="input-box">
-          <span class="details">Name</span>
-          <input type="text" name="username" value="{{data.name}}" required />
+      <form method="POST">
+        {% csrf_token %}
+        <div class="user-details">
+          <div class="form-row">
+            <div class="form-group input-box">
+              <span class="history">Action Taken (History)</span>
+              <textarea name="history" rows="4" cols="50" required disabled></textarea>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="form-group input-box">
+              <span class="today_progress">Action Taken (Today's Progress)</span>
+              <textarea name="today_progress" rows="4" cols="50" required></textarea>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="form-row">
+            <div class="form-group input-box">
+              <span class="status">Status</span>
+              <select class="form-control" name="select" required>
+                  <option value="Pending">Pending</option>
+                  <option value="Competed">Completed</option>
+              </select>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+
         </div>
-        <div class="input-box">
-          <span class="details">Past Address</span>
-          <input type="text" name="past" maxlength="240" placeholder="Enter your Past Address" value="{{data.past_address}}" required>
+        <div class="button">
+          <p>{{error}}</p>
+          <input type="submit" value="Update" style="width:100px;margin-left:40%;height:45px;">
         </div>
-        <div class="input-box">
-          <span class="details">Address</span>
-          <input type="text" name="address" maxlength="240" placeholder="Enter your Address" value="{{data.present_address}}" required>
-        </div>
-        <div class="input-box">
-          <span class="details">Phone Number</span>
-          <input class="number" type="number" name="phone" maxlength="10" placeholder="Enter your number" value="{{data.phone_number}}" required>
-        </div>
-      </div>
-      <div class="button">
-        <p>{{error}}</p>
-        <input type="submit" value="Update" style="width:100px;margin-left:40%;height:45px;">
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-  </div>
-  </div>
-<script src="{% static 'ticket_app/table_extensions/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+</div>
+ <script src="{% static 'ticket_app/table_extensions/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'ticket_app/table_extensions/vendor/bootstrap/js/popper.js' %}"></script>
 <script src="{% static 'ticket_app/table_extensions/vendor/bootstrap/js/popper.min.js' %}"></script>
 <script src="{% static 'ticket_app/table_extensions/vendor/bootstrap/js/bootstrap.min.js' %}"></script>

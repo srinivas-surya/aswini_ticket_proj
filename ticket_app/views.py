@@ -35,11 +35,17 @@ def user_login(request):
 def ticket_create(request):
     if request.method == "POST":
         ''' getting data from user form'''
-        name = request.POST['name']
-        past_address = request.POST['past_address']
-        current_address = request.POST['present_address']
-        phone_number = request.POST['phone_number']
-        print(name, past_address, current_address, phone_number)
+        topic = request.POST['topic']
+        tower = request.POST['tower']
+        dc = request.POST['dc']
+        item = request.POST['item']
+        severity = request.POST['severity']
+        history = request.POST['history']
+        start_date = request.POST['start_date']
+        owner = request.POST['owner']
+        eta = request.POST['eta']
+        end_date = request.POST['end_date']
+        status = request.POST['status']
         ''' storing data into database'''
         ticket_view = TicketData.objects.create(
             name=name,
@@ -65,10 +71,9 @@ def ticket_view(request):
 @csrf_exempt
 def ticket_update(request,pk):
     if request.method == "POST":
-        name = request.POST['username']
-        past_address = request.POST['past']
-        current_address = request.POST['address']
-        phone_number = request.POST['phone']
+        history = request.POST['history']
+        today_progress = request.POST['today_progress']
+        status = request.POST['status']
         "updating profile user data"
         TicketData.objects.filter(pk=pk).update(name=name, past_address=past_address,
                                                  present_address=current_address, phone_number=phone_number)
