@@ -88,3 +88,7 @@ def ticket_delete(request, pk):
     print(pk)
     data.delete()
     return HttpResponseRedirect(reverse("ticket_view"))
+
+@csrf_exempt
+def dashboard(request):
+    return render(request, "ticket_app/dashboard.html")

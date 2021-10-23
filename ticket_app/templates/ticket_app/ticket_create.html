@@ -2,56 +2,151 @@
 {% load static %}
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Ticket Create</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ticket Create</title>
   <link rel="shortcut icon" href="{% static 'ticket_app/images/logo.png' %}" alt="TCS" />
   {% block content %}
   <link rel='stylesheet' type='text/css' href="{% static 'ticket_app/css/style1.css' %}" />
   <link rel="stylesheet" href="{% static 'ticket_app/table_extensions/vendor/bootstrap/css/bootstrap-4.3.1.min.css' %}">
   <link href="{% static 'ticket_app/table_extensions/fontawesome-free-5.15.1/css/all.css' %}" rel="stylesheet">
   <link href="{% static 'ticket_app/table_extensions/fontawesome-free-5.15.1/css/all.min.css' %}" rel="stylesheet">
+  <link href="{% static 'ticket_app/css/style.css' %}" rel="stylesheet">
   <!-- Custom styles for this template-->
-<style>
+  <style>
   .quixnav .metismenu li {
     position: relative;
     color:#fff;
 }
+label {
+ display: inline-block;
+ margin-bottom: 5px;
+}
+
+.form-row {
+  display: flex;
+}
+
+.form-group {
+  padding: 5px;
+  width: 50%;
+}
+
+.form-group input {
+  width: 100%;
+}
+.user-details .input-box textarea {
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
 </style>
 <body>
+ <div class="row page-titles mx-0">
+                    <div class="col-sm-6 p-md-0">
+                        <div class="welcome-text">
+                            <h4>Create Ticket</h4>
+                        </div>
+                    </div>
+                    <!--<div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="">Ticket</a></li>
+                            <li class="breadcrumb-item active"><a href="">View</a></li>
+                        </ol>
+                    </div>-->
+                </div>
 <div class="card" style="top:50;">
-  <h4 class="card-header">Create Ticket</h4>
   <div class="card-body text-dark" style="font-family: Helvetica, Arial, sans-serif;font-size:17px;">
     <div class="col-lg-12" >
-        <form method="POST">
-      {% csrf_token %}
-      <div class="user-details">
-        <div class="input-box">
-          <span class="details">Name</span>
-          <input type="text" name="name" maxlength="20" placeholder="Enter your name"  required>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="user-details">
+          <div class="form-row">
+            <div class="form-group input-box">
+              <span class="topic">Topic</span>
+              <input type="text" name="topic" placeholder="Enter Topic"  required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="form-group input-box">
+              <span class="tower">Tower</span>
+              <input type="text" name="tower" placeholder="Enter Tower" required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="form-row">
+            <div class="form-group input-box">
+              <span class="dc">DC</span>
+              <input type="text" name="dc" placeholder="Enter DC" required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="form-group input-box">
+              <span class="item">Action Item</span>
+              <input type="text" name="item" placeholder="Enter Action Item" required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="form-row">
+            <div class="form-group input-box">
+              <span class="severity">Severity</span>
+              <input type="text" name="severity" placeholder="Enter Severity" required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="form-group input-box">
+              <span class="history">Action Taken (History)</span>
+              <textarea name="history" rows="4" cols="50" required></textarea>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="form-row">
+            <div class="form-group input-box">
+              <span class="today_progress">Action Taken (Today Progress)</span>
+              <textarea name="today_progress" rows="4" cols="50" required></textarea>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="form-group input-box">
+              <span class="start_date">Start Date</span>
+              <input type="date" name="start_date" placeholder="Enter Start Date" required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="form-row">
+            <div class="form-group input-box">
+              <span class="today">Today's Date</span>
+              <input type="date" name="today" id="startdateId" placeholder="Enter Today Date" required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="form-group input-box">
+              <span class="age">Age</span>
+              <input type="number" name="age" placeholder="Enter Age" required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="form-row">
+            <div class="form-group input-box">
+              <span class="owner">Owner</span>
+              <input type="text" name="owner" placeholder="Enter Owner" required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="form-group input-box">
+              <span class="severity">ETA</span>
+              <input type="text" name="eta" placeholder="Enter ETA">
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="form-row">
+            <div class="form-group input-box">
+              <span class="end_date">Actual Close Date</span>
+              <input type="date" name="end_date" placeholder="Enter Close Date" required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="form-group input-box">
+              <span class="status">Status</span>
+              <input type="text" name="status" placeholder="Enter Status" required>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+
         </div>
-        <div class="input-box">
-          <span class="details">Past Address</span>
-          <input type="text" name="past_address" maxlength="240" placeholder="Enter your Past Address" required>
+        <div class="button">
+          <p>{{error}}</p>
+          <input type="submit" value="Save" style="width:100px;margin-left:40%;height:45px;">
         </div>
-        <div class="input-box">
-          <span class="details">Address</span>
-          <input type="text" name="present_address" maxlength="240" placeholder="Enter your Address" required>
-        </div>
-        <div class="input-box">
-          <span class="details">Phone Number</span>
-          <input class="number" type="number" name="phone_number" maxlength="10" placeholder="Enter your number" required>
-        </div>
-      </div>
-      <div class="button">
-        <p>{{error}}</p>
-        <input type="submit" value="Create" style="width:100px;margin-left:40%;height:45px;">
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-  </div>
-  </div>
+</div>
 <script src="{% static 'ticket_app/table_extensions/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'ticket_app/table_extensions/vendor/bootstrap/js/popper.js' %}"></script>
 <script src="{% static 'ticket_app/table_extensions/vendor/bootstrap/js/popper.min.js' %}"></script>
@@ -80,6 +175,19 @@
       });
     });
 
+</script>
+<script>
+var date = new Date();
+var day = date.getDate();
+var month = date.getMonth() + 1;
+var year = date.getFullYear();
+
+if (month < 10) month = "0" + month;
+if (day < 10) day = "0" + day;
+
+var today = year + "-" + month + "-" + day;
+
+document.getElementById("startdateId").value = today;
 </script>
 </body>
 {% endblock content %}

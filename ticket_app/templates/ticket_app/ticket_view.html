@@ -18,6 +18,7 @@
     <link href="{% static 'ticket_app/table_extensions/assets/bootstrap-table.css' %}" rel="stylesheet">
     <link href="{% static 'ticket_app/table_extensions/assets/extensions/filter-control/bootstrap-table-filter-control.css' %}" rel="stylesheet">
     <link href="{% static 'ticket_app/table_extensions/assets/extensions/filter-control/bootstrap-table-filter-control.min.css' %}" rel="stylesheet">
+    <link href="{% static 'ticket_app/css/style.css' %}" rel="stylesheet">
     <script type="text/javascript">
 function confirmDeleteModal(id){
     $('#deleteModal').modal();
@@ -36,13 +37,32 @@ function confirmDeleteModal(id){
     position: relative;
     color:#fff;
 }
+td {
+font-size:14px;
+}
+.btn
+{
+color:#fff;
+}
 </style>
 <body>
+ <div class="row page-titles mx-0">
+                    <div class="col-sm-6 p-md-0">
+                        <div class="welcome-text">
+                            <h4>View Ticket</h4>
+                        </div>
+                    </div>
+                    <!--<div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="">Ticket</a></li>
+                            <li class="breadcrumb-item active"><a href="">View</a></li>
+                        </ol>
+                    </div>-->
+                </div>
     <div class="card" style="top:50;">
-  <h4 class="card-header">Tickets</h4>
   <div class="card-body text-dark" style="font-family: Helvetica, Arial, sans-serif;font-size:17px;">
     <div class="col-lg-12">
-            <table style="width:100%;" class="table table-striped" id="example"
+            <table class="table table-striped" id="example"
                    data-toggle="table"
                    data-pagination="true"
                    data-search="true"
@@ -66,11 +86,21 @@ function confirmDeleteModal(id){
                 <thead>
                 <tr>
                     <th data-sortable="true">ID</th>
-                    <th data-sortable="true">Name</th>
-                    <th data-sortable="true">Past Address</th>
-                    <th data-sortable="true">Current address</th>
-                    <th data-sortable="true">Phone Number</th>
-                    <th data-sortable="true" style="width: 200px;"></th>
+                    <th data-sortable="true">Topic</th>
+                    <th data-sortable="true">Tower</th>
+                    <th data-sortable="true">DC</th>
+                    <th data-sortable="true">Action Item</th>
+                    <th data-sortable="true" class="severity" data-field="severity" data-formatter="nameFormatter">Severity</th>
+                    <th data-sortable="true">Action Taken (History)</th>
+                    <th data-sortable="true">Action Taken (Today Progress)</th>
+                    <th data-sortable="true">Start Date</th>
+                    <th data-sortable="true">Today's Date</th>
+                    <th data-sortable="true">Age</th>
+                    <th data-sortable="true">Owner</th>
+                    <th data-sortable="true">ETA</th>
+                    <th data-sortable="true">Actual Close Date</th>
+                    <th data-sortable="true" class="status" data-field="status" data-formatter="priceFormatter">Status</th>
+                    <th data-sortable="true"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -80,10 +110,20 @@ function confirmDeleteModal(id){
                     <td>{{i.name}}</td>
                     <td>{{i.past_address}}</td>
                     <td>{{i.present_address}}</td>
+                    <td>{{i.present_address}}</td>
+                    <td class="severity">Critical</td>
                     <td>{{i.phone_number}}</td>
+                    <td>{{i.id}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.past_address}}</td>
+                    <td>{{i.present_address}}</td>
+                    <td>{{i.phone_number}}</td>
+                    <td>{{i.phone_number}}</td>
+                    <td>{{i.phone_number}}</td>
+                    <td class="status">Pending</td>
                     <td>
-                        <button class="btn btn-info"><a style="text-decoration:none;color:#fff;" href="{% url 'ticket_update' pk=i.id %}"><i class="fas fa-edit"></i> Edit</a></button>
-                        <button type="button" class="btn btn-danger"><a style="text-decoration:none;color:#fff;" href= "{% url 'ticket_delete' pk=i.id %}"><i class="fas fa-trash-alt"></i> Delete</a></button>
+                        <button class="btn btn-info"><a style="text-decoration:none;color:#fff;" href="{% url 'ticket_update' pk=i.id %}"><i class="fas fa-edit"></i> Update</a></button><br><br>
+                        <button type="button" class="btn btn-danger"><a style="text-decoration:none;color:#fff;" href= "{% url 'ticket_delete' pk=i.id %}"><i class="fas fa-trash-alt"></i>  Close</a></button>
                     </td>
                     {% endfor %}
                 </tr>
@@ -109,14 +149,32 @@ function confirmDeleteModal(id){
 
 <!-- Core plugin JavaScript-->
 <script src=" {% static 'ticket_app/table_extensions/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+ <script>
+  function nameFormatter(value, row) {
+  var icon = row.severity === 'Critical' | row.severity === 'CRITICAL' | row.severity === 'critical' ? 'btn-danger btn-sm' :
+  row.severity === 'Medium'| row.severity === 'MEDIUM' | row.severity === 'medium' ? 'btn-warning btn-sm' :
+  row.severity === 'Low' | row.severity === 'LOW' | row.severity === 'low' ?'btn-primary btn-sm' :
+  'btn-info btn-sm'
+  return '<button class="font btn ' + icon + '">' + value + '</button>'
+  }
+</script>
+<script>
+  function priceFormatter(value, row) {
+  var icon = row.status === 'Not Completed' ? 'btn-danger btn-sm' :
+  row.status === 'Pending' | row.status === 'PENDING' | row.status === 'pending' ? 'btn-warning btn-sm' :
+  row.status === 'Completed' | row.status === 'COMPLETED' | row.status === 'completed' ?'btn-success btn-sm' :
+  'btn-primary btn-sm'
+  return '<button class="font btn ' + icon + '">' + value + '</button>'
+  }
+</script>
 <script>
     $('#example').bootstrapTable({
     exportOptions: {
         fileName: 'table'
     }
 });
-
 </script>
+
 {% endblock content %}
 </body>
 </head>

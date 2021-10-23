@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="{% static 'ticket_app/table_extensions/vendor/bootstrap/css/bootstrap-4.3.1.min.css' %}">
   <link href="{% static 'ticket_app/table_extensions/fontawesome-free-5.15.1/css/all.css' %}" rel="stylesheet">
   <link href="{% static 'ticket_app/table_extensions/fontawesome-free-5.15.1/css/all.min.css' %}" rel="stylesheet">
+  <link href="{% static 'ticket_app/css/style.css' %}" rel="stylesheet">
   <!-- Custom styles for this template-->
 <style>
   .quixnav .metismenu li {
@@ -22,8 +23,20 @@
 }
 </style>
 <body>
+ <div class="row page-titles mx-0">
+                    <div class="col-sm-6 p-md-0">
+                        <div class="welcome-text">
+                            <h4>Update Ticket</h4>
+                        </div>
+                    </div>
+                    <!--<div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="">Ticket</a></li>
+                            <li class="breadcrumb-item active"><a href="">View</a></li>
+                        </ol>
+                    </div>-->
+                </div>
 <div class="card" style="top:50;">
-  <h4 class="card-header">Update Ticket</h4>
   <div class="card-body text-dark" style="font-family: Helvetica, Arial, sans-serif;font-size:17px;">
     <div class="col-lg-12" >
 <form method="POST">
