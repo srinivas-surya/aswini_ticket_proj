@@ -1,13 +1,16 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
-from .models import TicketData
-from django.shortcuts import HttpResponse
+from .models import TicketData, CompletedTicketData
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from datetime import date, datetime
+import time
 # Create your views here.
 
+
+@login_required
 @csrf_exempt
 def user_login(request):
     context = {}
@@ -20,7 +23,7 @@ def user_login(request):
 
         if user1:
             login(request, user1)
-            '''redirecting to profile_data page'''
+            '''redirecting to ticket_details page'''
             return HttpResponseRedirect(reverse("ticket_view"))
 
         else:
@@ -31,6 +34,8 @@ def user_login(request):
     else:
         return render(request, "ticket_app/login.html")
 
+
+@login_required
 @csrf_exempt
 def ticket_create(request):
     if request.method == "POST":
@@ -38,62 +43,95 @@ def ticket_create(request):
         topic = request.POST['topic']
         tower = request.POST['tower']
         dc = request.POST['dc']
-        item = request.POST['item']
+        action_item = request.POST['item']
         severity = request.POST['severity']
-        history = request.POST['history']
-        start_date = request.POST['start_date']
+        action_history = request.POST['history']
+        action_history = (str(datetime.now())[0:11]) + " " + str(action_history)
         owner = request.POST['owner']
         eta = request.POST['eta']
-        end_date = request.POST['end_date']
-        status = request.POST['status']
+        status_value = request.POST['status_value']
+        print(status_value)
         ''' storing data into database'''
-        ticket_view = TicketData.objects.create(
-            name=name,
-            past_address=past_address,
-            present_address=current_address,
-            phone_number=phone_number,
-            created_user = request.user
+        ticket_data_create = TicketData.objects.create(
+            topic=topic,
+            tower=tower,
+            dc=dc,
+            action_item=action_item,
+            severity=severity,
+            action_history=action_history,
+            owner=owner,
+            status=status_value,
+            eta=eta,
+            updated_at=None
         )
-        ticket_view.save()
+        ticket_data_create.save()
         return HttpResponseRedirect(reverse("ticket_view"))
     else:
         return render(request, "ticket_app/ticket_create.html")
 
 
+@login_required
 @csrf_exempt
 def ticket_view(request):
-    created_user_id = request.user.id
-    '''filtering data based on user_login'''
-    data = TicketData.objects.filter(created_user_id=created_user_id)
-    return render(request, "ticket_app/ticket_view.html", {"data":data})
+    '''render all tickets to the front end'''
+    data = TicketData.objects.all()
+    return render(request, "ticket_app/ticket_view.html", {"data": data})
 
 
+@login_required
 @csrf_exempt
-def ticket_update(request,pk):
+def ticket_update(request, pk):
     if request.method == "POST":
-        history = request.POST['history']
-        today_progress = request.POST['today_progress']
-        status = request.POST['status']
-        "updating profile user data"
-        TicketData.objects.filter(pk=pk).update(name=name, past_address=past_address,
-                                                 present_address=current_address, phone_number=phone_number)
+        action_history = request.POST['history']
+        status_val = request.POST['drop1']
+        if status_val == "Completed":
+            ticket_delete(pk, action_history)
+            return HttpResponseRedirect(reverse("ticket_view"))
+        else:
 
-        return HttpResponseRedirect(reverse("ticket_view"))
+            "updating profile user data"
+            data = TicketData.objects.get(pk=pk)
+            old_action = str(data.action_history)
+            new_action = str(date.today()) + " " + str(action_history)
+            new_action = (old_action + "\n" + new_action)
+            updated_at = datetime.now()
+            TicketData.objects.filter(pk=pk).update(action_history=new_action,
+                                                    status=status_val, updated_at=updated_at)
+            return HttpResponseRedirect(reverse("ticket_view"))
 
     else:
         "filter the data based on user selected value"
+        print(pk)
         data = TicketData.objects.get(pk=pk)
-        return render(request, "ticket_app/ticket_update.html", {"data":data})
+        return render(request, "ticket_app/ticket_update.html", {"data": None})
 
 
-@csrf_exempt
-def ticket_delete(request, pk):
+def ticket_delete(pk, action_history):
     data = TicketData.objects.get(pk=pk)
-    print("working")
-    print(pk)
-    data.delete()
-    return HttpResponseRedirect(reverse("ticket_view"))
+    old_action = str(data.action_history)
+    new_action = str(date.today()) + " " + str(action_history)
+    new_action = (old_action + "\n" + new_action)
 
+    ''' storing data completed into database'''
+    completed_ticket_create = CompletedTicketData.objects.create(
+        topic=data.topic,
+        tower=data.tower,
+        dc=data.dc,
+        action_item=data.action_item,
+        severity=data.severity,
+        action_history=new_action,
+        owner=data.owner,
+        status="Completed",
+        eta=data.eta,
+        created_at=data.created_at
+    )
+    completed_ticket_create.save()
+    time.sleep(1)
+    '''after updating into completed table deleting record from ticket table'''
+    data.delete()
+
+
+@login_required
 @csrf_exempt
 def dashboard(request):
     return render(request, "ticket_app/dashboard.html")

@@ -94,10 +94,8 @@ color:#fff;
                     <th data-sortable="true">Action Taken (History)</th>
                     <th data-sortable="true">Start Date</th>
                     <th data-sortable="true">Today's Date</th>
-                    <th data-sortable="true">Age</th>
                     <th data-sortable="true">Owner</th>
                     <th data-sortable="true">ETA</th>
-                    <th data-sortable="true">Actual Close Date</th>
                     <th data-sortable="true" class="status" data-field="status" data-formatter="priceFormatter">Status</th>
                     <th data-sortable="true"></th>
                 </tr>
@@ -106,21 +104,19 @@ color:#fff;
                 {% for i in data %}
                 <tr>
                     <td>{{i.id}}</td>
-                    <td>{{i.name}}</td>
-                    <td>{{i.past_address}}</td>
-                    <td>{{i.present_address}}</td>
-                    <td>{{i.present_address}}</td>
-                    <td class="severity">Critical</td>
-                    <td>{{i.phone_number}}</td>
-                    <td>{{i.id}}</td>
-                    <td>{{i.name}}</td>
-                    <td>{{i.past_address}}</td>
-                    <td>{{i.present_address}}</td>
-                    <td>{{i.phone_number}}</td>
-                    <td>{{i.phone_number}}</td>
-                    <td class="status">Pending</td>
+                    <td>{{i.topic}}</td>
+                    <td>{{i.tower}}</td>
+                    <td>{{i.dc}}</td>
+                    <td>{{i.action_item}}</td>
+                    <td class="severity">{{i.severity}}</td>
+                    <td>{{i.action_history}}</td>
+                    <td>{{i.created_at}}</td>
+                    <td>{{i.updated_at}}</td>
+                    <td>{{i.owner}}</td>
+                    <td>{{i.eta}}</td>
+                    <td class="status">{{i.status}}</td>
                     <td>
-                        <button class="btn btn-info"><a style="text-decoration:none;color:#fff;" href="{% url 'ticket_update' pk=i.id %}"><i class="fas fa-edit"></i> Update</a></button><br><br>
+                        <button class="btn btn-info"><a style="text-decoration:none;color:#fff;" href="{% url 'ticket_update' pk=i.id %}"><i class="fas fa-edit"></i> Edit</a></button>
                     </td>
                     {% endfor %}
                 </tr>

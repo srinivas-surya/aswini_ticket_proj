@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'ticketproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'TicketData',
+        'NAME': 'tcs_test_db',
         'USER': 'root',
         'PASSWORD': 'root1234',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '3406',
 
     }
 }
@@ -125,10 +125,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # session settings
-SESSION_EXPIRE_SECONDS = 120  # 1 hour
+SESSION_EXPIRE_SECONDS = 3600  # 1 hour
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 
-#SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD = 60 # group by minute
+# SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD = 60 # group by minute
 SESSION_TIMEOUT_REDIRECT = '/'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
